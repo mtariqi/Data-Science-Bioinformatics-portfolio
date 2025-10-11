@@ -11,9 +11,10 @@
 ## 🛠️ Tech Stack
 | Category       | Tools                          |
 |----------------|--------------------------------|
-| Languages      | Python, R, SQL                 |
+| Languages      | Python, R, SAS, SQL                 |
 | ML/Stats       | PyTorch, Scikit-learn, Pandas  |
-| Bioinformatics | GATK, BioPython, ADAM          |
+| Bioinformatics | GATK, BioPython, ADAM, STAR          |
+| Apache Suite   | Apache Spark, Apache NiFi, Apache Doris |
 
 ## 🚀 Featured Projects
 1. **[Genomic Variant Classifier](https://github.com/yourlink)**  
