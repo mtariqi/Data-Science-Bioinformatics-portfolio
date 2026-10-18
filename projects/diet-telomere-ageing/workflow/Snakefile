@@ -1,0 +1,46 @@
+from pathlib import Path
+
+configfile: "config/config.yaml"
+
+ROOT = Path.cwd()
+CYCLES = config["cycles"]
+FILES = config["files"]
+BASE = config["nhanes_base_url"].rstrip("/")
+RAW = ROOT / "data/raw"
+INTERIM = ROOT / "data/interim"
+RESULTS = ROOT / "results"
+
+INPUTS = [str(RAW / f"{cycle}_{name}.XPT")
+          for cycle in CYCLES for name in FILES]
+
+rule all:
+    input:
+        str(RESULTS / "analysis_scaffold.tsv"),
+        str(RESULTS / "run_manifest.txt")
+
+rule download_nhanes:
+    output:
+        str(RAW / "{cycle}_{table}.XPT")
+    params:
+        url=lambda wc: f"{BASE}/{wc.cycle}/{wc.table}.XPT"
+    shell:
+        "python scripts/download_nhanes.py --url '{params.url}' --output '{output}'"
+
+rule prepare_inputs:
+    input: INPUTS
+    output: str(INTERIM / "input_inventory.tsv")
+    script: "scripts/prepare_nhanes.py"
+
+rule analyze:
+    input: str(INTERIM / "input_inventory.tsv")
+    output: str(RESULTS / "analysis_scaffold.tsv")
+    params:
+        min_cases=config["minimum_complete_cases"],
+        seed=config["random_seed"]
+    script: "scripts/analyze.py"
+
+rule manifest:
+    input: str(RESULTS / "analysis_scaffold.tsv")
+    output: str(RESULTS / "run_manifest.txt")
+    shell:
+        "python scripts/write_manifest.py --input '{input}' --output '{output}'"

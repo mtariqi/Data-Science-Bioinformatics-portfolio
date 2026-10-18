@@ -1,0 +1,15 @@
+project_name: diet_telomere_ageing
+cycles:
+  - 1999-2000
+  - 2001-2002
+# CDC NHANES public-use XPT files. Update only after checking the official data dictionary.
+nhanes_base_url: https://wwwn.cdc.gov/Nchs/Nhanes
+files:
+  - DEMO
+  - DR1TOT
+  - DR2TOT
+  - TELO
+
+# Initial scaffold outputs; analysis definitions require scientific review.
+minimum_complete_cases: 100
+random_seed: 20261018

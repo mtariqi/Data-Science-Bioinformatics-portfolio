@@ -1,0 +1,19 @@
+name: diet-telomere-ageing-ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build workflow image
+        run: docker build -f projects/diet-telomere-ageing/Dockerfile -t diet-telomere-ageing projects/diet-telomere-ageing
+      - name: Check configuration and workflow DAG
+        run: |
+          docker run --rm --entrypoint python diet-telomere-ageing -m unittest discover -s tests -v
+          docker run --rm diet-telomere-ageing --dry-run --cores 1
