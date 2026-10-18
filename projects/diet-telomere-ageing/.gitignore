@@ -1,0 +1,15 @@
+data/raw/*
+data/interim/*
+data/processed/*
+results/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!results/.gitkeep
+.snakemake/
+__pycache__/
+*.py[cod]
+.Rhistory
+.RData
+.env
+.DS_Store
